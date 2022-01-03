@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context">
+
+    <mvc:annotation-driven/>   
+    
+    <bean id="propertyConfigurer"
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
+          p:location="/WEB-INF/classes/database.properties"
+          p:ignoreUnresolvablePlaceholders="true"/>
+    
+    <!--    <bean id="statusProperty"
+      class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
+      p:location="/WEB-INF/classes/status.properties"
+      p:ignoreUnresolvablePlaceholders="true"/>
+    -->
+    <!--<context:property-placeholder location="">-->
+     
+    <!--    <bean id="dataSource"
+    class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+    p:driverClassName="${jdbc.driverClassName}"
+    p:url="${jdbc.url}"
+    p:username="${jdbc.username}"
+    p:password="${jdbc.password}" />-->
+    
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>              
+            
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mailserver.host}"/>
+        <property name="port" value="${mailserver.port}"/>
+        <property name="username" value="${mailserver.username}"/>
+        <property name="password" value="${mailserver.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean>      
+    <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName"  value="com.mysql.jdbc.Driver"></property>  
+        <property name="url" value="jdbc:mysql://localhost:3306/eportal?useSSL=false&amp;autoReconnect=true"></property>  
+        <property name="username" value="root"></property>  
+        <property name="password" value="welcome1"></property>
+    </bean>
+    -->
+    <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+    
+        <!--<property name="packagesToScan" value="com.eportal.entities"></property>-->
+    
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>  
+                <prop key="hibernate.show_sql">true</prop>  
+            </props>
+        </property>
+    
+    </bean>
+    
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="*" rollback-for="java.lang.Exception"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="mySessionFactory" />
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="-1"></property>
+    </bean>
+    
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        
+    </bean>
+    
+    <bean id="template" class="org.springframework.orm.hibernate4.HibernateTemplate">
+        <property name="sessionFactory" ref="mySessionFactory"></property>
+        <property name="checkWriteOperations" value="false"></property>
+    </bean>
+    
+    <!--    <bean name="SecurityConfig" class="com.eportal.config.SecurityConfig"></bean>
+    -->
+    
+    <!--abhishek-->
+    <!--contract Beans-->
+    <bean id="nGUploadInputBean" class="com.eportal.entities.NGUploadInputBean"></bean>
+    <bean id="user" class="com.eportal.entities.Userdetail"></bean>
+    <bean id="SecQue" class="com.eportal.entities.UserSecSeeded"></bean>
+    <bean id="UserSecQue" class="com.eportal.entities.UserSecurityQuestion"></bean>
+    <bean id="RfeStatus" class="com.eportal.entities.RfeStatus"></bean>
+    <bean id="RfeCostCode" class="com.eportal.entities.RfeCostCode"></bean>
+    <bean id="RfeNegotiationStyle" class="com.eportal.entities.RfeNegotiationStyle"></bean>
+    <bean id="CategorySubcategory" class="com.eportal.entities.CategorySubcategory"></bean>
+    <bean id="clauses" class="com.eportal.entities.Clauses"></bean>
+    <bean id="rfqHeader" class="com.eportal.entities.WorkOrderRfqHeader"></bean>
+    <bean id="rfqLineItem" class="com.eportal.entities.WorkOrderRfqLineItem"></bean>
+    <bean id="rfqAttachment" class="com.eportal.entities.WorkOrderAttachment"></bean>
+    <bean id="rfqClauses" class="com.eportal.entities.WorkOrderAddclauses"></bean>
+    <bean id="selectedApproval" class="com.eportal.entities.WorkOrderSelectedApprover"></bean>
+    <bean id="userCountrySeeded" class="com.eportal.entities.UserCountrySeeded"></bean>
+    <bean id="gstStateSeeded" class="com.eportal.entities.GstStateSeeded"></bean>
+    <bean id="supplierStatusSeeded" class="com.eportal.entities.SupplierStatusSeeded"></bean>
+    <bean id="typeOfBusinessSeeded" class="com.eportal.entities.TypeOfBusinessSeeded"></bean>
+    <bean id="supplierUser" class="com.eportal.entities.SupplierUser"></bean>
+    <bean id="supplierBankDetailsNew" class="com.eportal.entities.SupplierBankDetailsNew"></bean>
+    <bean id="workOrderComment" class="com.eportal.entities.WorkOrderComment"></bean>
+    <bean id="supplierSelection" class="com.eportal.entities.SupplierSelection"></bean>
+    <bean id="supplierAddattachment" class="com.eportal.entities.SupplierAddattachment"></bean>
+    <bean id="supplierHeader" class="com.eportal.entities.SupplierHeader"></bean>
+    <bean id="supplierLineitem" class="com.eportal.entities.SupplierLineitem"></bean>
+    <bean id="supplierUserAttachment" class="com.eportal.entities.SupplierUserAttachment"></bean>
+    <bean id="supplierUserRegContactDetails" class="com.eportal.entities.SupplierUserRegContactDetails"></bean>
+    <bean id="currencySeeded" class="com.eportal.entities.CurrencySeeded"></bean>
+    <bean id="qmQuestion" class="com.eportal.entities.QmQuestion"></bean>
+    <bean id="qmAnswer" class="com.eportal.entities.QmAnswer"></bean>
+    <bean id="userWf" class="com.eportal.entities.UserWf"></bean>
+    <bean id="buyerDetails" class="com.eportal.entities.BuyerDetails"></bean>
+    <bean id="pRDetails" class="com.eportal.entities.PRDetails"></bean>
+    <bean id="vendorDetails" class="com.eportal.entities.VendorDetails"></bean>
+    <bean id="rfqHeaderVendorMapping" class="com.eportal.entities.RfqHeaderVendorMapping"></bean>
+    <bean id="vendorGroup" class="com.eportal.entities.VendorGroup"></bean>
+    <bean id="vendorGroupMapping" class="com.eportal.entities.VendorGroupMapping"></bean>
+    <bean id="workOrderAttachmentTemp" class="com.eportal.entities.WorkOrderAttachmentTemp"></bean>
+    <bean id="contractAttachmentTemp" class="com.eportal.entities.ContractAttachmentTemp"></bean>
+    
+    <bean id="prospectMaster" class="com.eportal.entities.ProspectMaster"></bean>
+    <bean id="buyerVendorNotification" class="com.eportal.entities.BuyerVendorNotification"></bean>
+    <bean id="workOrderRfpHeader" class="com.eportal.entities.WorkOrderRfpHeader"></bean>
+    <bean id="rfpHeaderVendorMapping" class="com.eportal.entities.RfpHeaderVendorMapping"></bean>
+    <bean id="securityQuestionSeeded" class="com.eportal.entities.SecurityQuestionSeeded"></bean>
+    <bean id="buyerSecurityQueAns" class="com.eportal.entities.BuyerSecurityQueAns"></bean>
+    <bean id="reasonMaster" class="com.eportal.entities.ReasonMaster"></bean>
+    <bean id="purchaseOrderTypeMaster" class="com.eportal.entities.PurchaseOrderTypeMaster"></bean>
+    <bean id="buyerTeamleadMapping" class="com.eportal.entities.BuyerTeamleadMapping"></bean>
+    <bean id="pOHeaderDetails" class="com.eportal.entities.POHeaderDetails"></bean>
+    <bean id="newgenPRLineItem" class="com.eportal.entities.NewgenPRLineItem"></bean>
+    <bean id="countryMaster" class="com.eportal.entities.CountryMaster"></bean>
+    <bean id="newgenContractLineItem" class="com.eportal.entities.NewgenContractLineItem"></bean>
+    <bean id="contractRfqHeader" class="com.eportal.entities.ContractRfqHeader"></bean>
+    <bean id="contractRfqLineItem" class="com.eportal.entities.ContractRfqLineItem"></bean>
+    <bean id="finalizedContractRfq" class="com.eportal.entities.FinalizedContractRfq"></bean>
+    
+    <bean id="contractRfqHeaderVendorMapping" class="com.eportal.entities.ContractRfqHeaderVendorMapping"></bean>
+    <bean id="masterVendor" class="com.eportal.entities.MasterVendor"></bean>
+    <bean id="masterCompanyCode" class="com.eportal.entities.MasterCompanyCode"></bean>
+    <bean id="masterPurchasingGroup" class="com.eportal.entities.MasterPurchasingGroup"></bean>
+    <bean id="contractVendorRfqHeader" class="com.eportal.entities.ContractVendorRfqHeader"></bean>
+    <bean id="contractVendorRfqLineItem" class="com.eportal.entities.ContractVendorRfqLineItem"></bean>
+    <bean id="accountAssignmentCategoryMaster" class="com.eportal.entities.AccountAssignmentCategoryMaster"></bean>
+    <bean id="paymentTermsMaster" class="com.eportal.entities.PaymentTermsMaster"></bean>
+    <bean id="masterDeliveryTerms" class="com.eportal.entities.MasterDeliveryTerms"></bean>
+    <bean id="ngExtPRToPO" class="com.eportal.entities.NGExtPRToPO"></bean>
+    <bean id="ngExtPOToPOPK" class="com.eportal.entities.NGExtPRToPOPK"></bean>
+    <bean id="reportBuyerAuditLog" class="com.eportal.entities.ReportBuyerAuditLog"></bean>
+    <bean id="openRfqReportBean" class="com.eportal.entities.OpenRfqReportBean"></bean>       
+    <bean id="contractReportBean" class="com.eportal.entities.ContractReportBean"></bean>
+     
+    <bean id="ratedParameters" class="com.eportal.entities.RatedParameters"></bean>
+    
+    <bean id="queryReasonMaster" class="com.eportal.entities.QueryReasonMaster"></bean>
+    <bean id="queryUser" class="com.eportal.entities.QueryUser"></bean>
+    <bean id="queryWIInput" class="com.eportal.entities.QueryWIInput"></bean>
+    <bean id="queryWIOutPut" class="com.eportal.entities.QueryWIOutPut"></bean>
+    <bean id="rejectWIInput" class="com.eportal.entities.RejectWIInput"></bean>
+    <bean id="rejectWIOutPut" class="com.eportal.entities.RejectWIOutPut"></bean>
+    <bean id="tlPrLineItemsBean" class="com.eportal.entities.TlPrLineItemsBean"></bean>
+    <bean id="emailTriggerDetails" class="com.eportal.entities.EmailTriggerDetails"></bean>
+    <bean id="getDocPRRFQInput" class="com.eportal.newgenControl.GetDocPRRFQInput"></bean>
+    <bean id="inputBean" class="com.eportal.newgenControl.InputBean"></bean>
+    <bean id="inputBean1" class="com.eportal.newgenControl.InputBean1"></bean>
+    <bean id="supportingDocInput" class="com.eportal.newgenControl.SupportingDocInput"></bean>
+    <bean id="buyerPendingPRLineItemsBean" class="com.eportal.entities.BuyerPendingPRLineItemsBean"></bean>
+    <bean id="rfqPrLineItemBean" class="com.eportal.entities.RfqPrLineItemBean"></bean>
+    <bean id="adminDashboardCountBean" class="com.eportal.entities.AdminDashboardCountBean"></bean>
+    <bean id="buyerRfqLineItemBean" class="com.eportal.entities.BuyerRfqLineItemBean"></bean>
+    <bean id="masterCurrency" class="com.eportal.entities.MasterCurrency"></bean>
+    <bean id="masterDepartment" class="com.eportal.entities.MasterDepartment"></bean>
+    <bean id="masterMaterialGroup" class="com.eportal.entities.MasterMaterialGroup"></bean>
+    <bean id="masterServiceMaster" class="com.eportal.entities.MasterServiceMaster"></bean>
+    <bean id="masterCostCentre" class="com.eportal.entities.MasterCostCentre"></bean>
+    <bean id="teamLeadCompanyCodeMapping" class="com.eportal.entities.TeamLeadCompanyCodeMapping"></bean>
+    <bean id="vendorRfqLineItemBean" class="com.eportal.entities.VendorRfqLineItemBean"></bean>
+    <bean id="masterItemCategory" class="com.eportal.entities.MasterItemCategory"></bean>
+    <bean id="masterFundFMArea" class="com.eportal.entities.MasterFundFMArea"></bean>
+    <bean id="pORfqLineItemBean" class="com.eportal.entities.PORfqLineItemBean"></bean>
+    <bean id="masterInternalOrder" class="com.eportal.entities.MasterInternalOrder"></bean>
+    <bean id="masterGLCode" class="com.eportal.entities.MasterGLCode"></bean>
+    <bean id="masterCommitmentItem" class="com.eportal.entities.MasterCommitmentItem"></bean>
+    <bean id="masterWBSElement" class="com.eportal.entities.MasterWBSElement"></bean>
+    <bean id="masterNetwork" class="com.eportal.entities.MasterNetwork"></bean>
+    <bean id="masterAsset" class="com.eportal.entities.MasterAsset"></bean>
+    <bean id="masterMaterialMRP" class="com.eportal.entities.MasterMaterialMRP"></bean>
+    <bean id="masterMaterialOtherData" class="com.eportal.entities.MasterMaterialOtherData"></bean>
+    <bean id="masterMaterialGeneral" class="com.eportal.entities.MasterMaterialGeneral"></bean>
+    <bean id="masterPlant" class="com.eportal.entities.MasterPlant"></bean>
+    <bean id="workOrderRfpLineItem" class="com.eportal.entities.WorkOrderRfpLineItem"></bean>
+    <bean id="supplierRfpHeader" class="com.eportal.entities.SupplierRfpHeader"></bean>
+    <bean id="supplierRfpLineItem" class="com.eportal.entities.SupplierRfpLineItem"></bean>
+    <bean id="finalizedRfq" class="com.eportal.entities.FinalizedRfq"></bean>
+    <bean id="tlContractLinesBean" class="com.eportal.entities.TlContractLinesBean"></bean>
+    <bean id="masterPricingProcedures" class="com.eportal.entities.MasterPricingProcedures"></bean>
+    <bean id="masterPricingDescription" class="com.eportal.entities.MasterPricingDescription"></bean>
+    <bean id="masterTaxCode" class="com.eportal.entities.MasterTaxCode"></bean>
+    <bean id="conditionsLineLevel" class="com.eportal.entities.ConditionsLineLevel"></bean>
+    <bean id="masterBusinessArea" class="com.eportal.entities.MasterBusinessArea"></bean>
+    <bean id="masterSalesOrganisation" class="com.eportal.entities.MasterSalesOrganisation"></bean>
+    <bean id="masterDistributionChannel" class="com.eportal.entities.MasterDistributionChannel"></bean>
+    <bean id="MasterDivisionDept" class="com.eportal.entities.MasterDivisionDept"></bean>
+    <bean id="masterProfitCenter" class="com.eportal.entities.MasterProfitCenter"></bean>
+    <bean id="masterSalesOffice" class="com.eportal.entities.MasterSalesOffice"></bean>
+    <bean id="masterCustomerGroup" class="com.eportal.entities.MasterCustomerGroup"></bean>
+    <bean id="masterProductHierarchy1" class="com.eportal.entities.MasterProductHierarchy1"></bean>
+    <bean id="masterProductHierarchy2" class="com.eportal.entities.MasterProductHierarchy2"></bean>
+    <bean id="masterProductHierarchy3" class="com.eportal.entities.MasterProductHierarchy3"></bean>
+    <bean id="masterMaterialType" class="com.eportal.entities.MasterMaterialType"></bean>
+    <bean id="masterReferenceItem" class="com.eportal.entities.MasterReferenceItem"></bean>
+    <bean id="buyerContractRfqLineItemBean" class="com.eportal.entities.BuyerContractRfqLineItemBean"></bean>
+    <bean id="masterProjectIndicator" class="com.eportal.entities.MasterProjectIndicator"></bean>
+    <bean id="masterValuationType" class="com.eportal.entities.MasterValuationType"></bean>
+    <bean id="masterCustomerClassification" class="com.eportal.entities.MasterCustomerClassification"></bean>
+    <bean id="masterMaterialSrcIndicator" class="com.eportal.entities.MasterMaterialSrcIndicator"></bean>
+    <bean id="masterContractType" class="com.eportal.entities.MasterContractType"></bean>
+    <bean id="masterIndustryCode1" class="com.eportal.entities.MasterIndustryCode1"></bean>
+    <bean id="masterIndustryCode2" class="com.eportal.entities.MasterIndustryCode2"></bean>
+    <bean id="masterIndustryCode3" class="com.eportal.entities.MasterIndustryCode3"></bean>
+    <bean id="masterSalesDocType" class="com.eportal.entities.MasterSalesDocType"></bean>
+    <bean id="masterCountry" class="com.eportal.entities.MasterCountry"></bean>
+    <bean id="masterBillType" class="com.eportal.entities.MasterBillType"></bean>
+    <bean id="masterSONumber" class="com.eportal.entities.MasterSONumber"></bean>
+    <bean id="masterHighLevelItem" class="com.eportal.entities.MasterHighLevelItem"></bean>
+    <bean id="masterIndustryCode" class="com.eportal.entities.MasterIndustryCode"></bean>
+    <bean id="profitabilitySegment" class="com.eportal.entities.ProfitabilitySegment"></bean>
+    <bean id="serviceAccountAssignment" class="com.eportal.entities.ServiceAccountAssignment"></bean>
+    <bean id="services" class="com.eportal.entities.Services"></bean>
+    <bean id="limitAccountAssignment" class="com.eportal.entities.LimitAccountAssignment"></bean>
+    <bean id="masterExchangeRate" class="com.eportal.entities.MasterExchangeRate"></bean>
+    <bean id="deliverySchedule" class="com.eportal.entities.DeliverySchedule"></bean>
+    <bean id="delivery" class="com.eportal.entities.Delivery"></bean>
+    <bean id="invoice" class="com.eportal.entities.Invoice"></bean>
+    <bean id="accountAssignment" class="com.eportal.entities.AccountAssignment"></bean>
+    <bean id="text" class="com.eportal.entities.Text"></bean>
+    <bean id="deliveryAddress" class="com.eportal.entities.DeliveryAddress"></bean>
+    <bean id="confirmations" class="com.eportal.entities.Confirmations"></bean>
+    <bean id="conditionControl" class="com.eportal.entities.ConditionControl"></bean>
+    <bean id="headerText" class="com.eportal.entities.HeaderText"></bean>
+    <bean id="cmplxPRToPOLineItemPRAccountAssignmentValues" class="com.eportal.entities.CmplxPRToPOLineItemPRAccountAssignmentValues"></bean>
+    <bean id="cmplxPRToPOLineItemService" class="com.eportal.entities.CmplxPRToPOLineItemService"></bean>
+    <bean id="cmplxPRToPOLineItemPRAccountAssignment" class="com.eportal.entities.CmplxPRToPOLineItemPRAccountAssignment"></bean>
+    <bean id="masterConditionValuesFormulas" class="com.eportal.entities.MasterConditionValuesFormulas"></bean>
+    <bean id="nGExtPOCreation" class="com.eportal.entities.NGExtPOCreation"></bean>
+    <bean id="customerData" class="com.eportal.entities.CustomerData"></bean>
+    <bean id="quantityDates" class="com.eportal.entities.QuantityDates"></bean>
+    
+    <bean id="nGCmplxPOCreationApproverDetails" class="com.eportal.entities.NGCmplxPOCreationApproverDetails"></bean>    
+    <bean id="nGCmplxPOCreationCommunication" class="com.eportal.entities.NGCmplxPOCreationCommunication"></bean>
+    <bean id="nGCmplxPOCreationConditionControl" class="com.eportal.entities.NGCmplxPOCreationConditionControl"></bean>
+    <bean id="nGCmplxPOCreationConditions" class="com.eportal.entities.NGCmplxPOCreationConditions"></bean>
+    <bean id="nGCmplxPOCreationConfirmations" class="com.eportal.entities.NGCmplxPOCreationConfirmations"></bean>
+    <bean id="nGCmplxPOCreationCustormerData" class="com.eportal.entities.NGCmplxPOCreationCustormerData"></bean>
+    <bean id="nGCmplxPOCreationDelivery" class="com.eportal.entities.NGCmplxPOCreationDelivery"></bean>
+    <bean id="nGCmplxPOCreationDeliveryAddress" class="com.eportal.entities.NGCmplxPOCreationDeliveryAddress"></bean>
+    <bean id="nGCmplxPOCreationDeliveryInvoice" class="com.eportal.entities.NGCmplxPOCreationDeliveryInvoice"></bean>
+    <bean id="nGCmplxPOCreationDelverySchedule" class="com.eportal.entities.NGCmplxPOCreationDelverySchedule"></bean>
+    <bean id="nGCmplxPOCreationHeaderText" class="com.eportal.entities.NGCmplxPOCreationHeaderText"></bean>
+    <bean id="nGCmplxPOCreationInvoice" class="com.eportal.entities.NGCmplxPOCreationInvoice"></bean>
+    <bean id="nGCmplxPOCreationLimits" class="com.eportal.entities.NGCmplxPOCreationLimits"></bean>
+    <bean id="nGCmplxPOCreationLineItemConditions" class="com.eportal.entities.NGCmplxPOCreationLineItemConditions"></bean>
+    <bean id="nGCmplxPOCreationLineItemCustomerData" class="com.eportal.entities.NGCmplxPOCreationLineItemCustomerData"></bean>
+    <bean id="nGCmplxPOCreationLineItemPO" class="com.eportal.entities.NGCmplxPOCreationLineItemPO"></bean>
+    <bean id="nGCmplxPOCreationLineItemPOAccountAssignment" class="com.eportal.entities.NGCmplxPOCreationLineItemPOAccountAssignment"></bean>
+    <bean id="nGCmplxPOCreationLineItemPOAccountAssignmentValues" class="com.eportal.entities.NGCmplxPOCreationLineItemPOAccountAssignmentValues"></bean>
+    <bean id="nGCmplxPOCreationLineItemService" class="com.eportal.entities.NGCmplxPOCreationLineItemService"></bean>
+    <bean id="nGCmplxPOCreationPartners" class="com.eportal.entities.NGCmplxPOCreationPartners"></bean>
+    <bean id="nGCmplxPOCreationQuantitiesWeights" class="com.eportal.entities.NGCmplxPOCreationQuantitiesWeights"></bean>
+    <bean id="nGCmplxPOCreationSAPErrorMsg" class="com.eportal.entities.NGCmplxPOCreationSAPErrorMsg"></bean>
+    <bean id="nGCmplxPOCreationTexts" class="com.eportal.entities.NGCmplxPOCreationTexts"></bean>
+    <bean id="nGCmplxPOCreationVendorAddress" class="com.eportal.entities.NGCmplxPOCreationVendorAddress"></bean>
+    
+    <bean id="masterPurchaseOrg" class="com.eportal.entities.MasterPurchaseOrg"></bean>
+    
+    <bean id="nGBPExtPOCreation" class="com.eportal.entities.NGBPExtPOCreation"></bean>
+    <bean id="nGBPCmplxPOCreationApproverDetails" class="com.eportal.entities.NGBPCmplxPOCreationApproverDetails"></bean>    
+    <bean id="nGBPCmplxPOCreationCommunication" class="com.eportal.entities.NGBPCmplxPOCreationCommunication"></bean>
+    <bean id="nGBPCmplxPOCreationConditionControl" class="com.eportal.entities.NGBPCmplxPOCreationConditionControl"></bean>
+    <bean id="nGBPCmplxPOCreationConditions" class="com.eportal.entities.NGBPCmplxPOCreationConditions"></bean>
+    <bean id="nGBPCmplxPOCreationConfirmations" class="com.eportal.entities.NGBPCmplxPOCreationConfirmations"></bean>
+    <bean id="nGBPCmplxPOCreationCustormerData" class="com.eportal.entities.NGBPCmplxPOCreationCustormerData"></bean>
+    <bean id="nGBPCmplxPOCreationDelivery" class="com.eportal.entities.NGBPCmplxPOCreationDelivery"></bean>
+    <bean id="nGBPCmplxPOCreationDeliveryAddress" class="com.eportal.entities.NGBPCmplxPOCreationDeliveryAddress"></bean>
+    <bean id="nGBPCmplxPOCreationDeliveryInvoice" class="com.eportal.entities.NGBPCmplxPOCreationDeliveryInvoice"></bean>
+    <bean id="nGBPCmplxPOCreationDelverySchedule" class="com.eportal.entities.NGBPCmplxPOCreationDelverySchedule"></bean>
+    <bean id="nGBPCmplxPOCreationHeaderText" class="com.eportal.entities.NGBPCmplxPOCreationHeaderText"></bean>
+    <bean id="nGBPCmplxPOCreationInvoice" class="com.eportal.entities.NGBPCmplxPOCreationInvoice"></bean>
+    <bean id="nGBPCmplxPOCreationLimits" class="com.eportal.entities.NGBPCmplxPOCreationLimits"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemConditions" class="com.eportal.entities.NGBPCmplxPOCreationLineItemConditions"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemCustomerData" class="com.eportal.entities.NGBPCmplxPOCreationLineItemCustomerData"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemPO" class="com.eportal.entities.NGBPCmplxPOCreationLineItemPO"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemPOAccountAssignment" class="com.eportal.entities.NGBPCmplxPOCreationLineItemPOAccountAssignment"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemPOAccountAssignmentValues" class="com.eportal.entities.NGBPCmplxPOCreationLineItemPOAccountAssignmentValues"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemService" class="com.eportal.entities.NGBPCmplxPOCreationLineItemService"></bean>
+    <bean id="nGBPCmplxPOCreationPartners" class="com.eportal.entities.NGBPCmplxPOCreationPartners"></bean>
+    <bean id="nGBPCmplxPOCreationQuantitiesWeights" class="com.eportal.entities.NGBPCmplxPOCreationQuantitiesWeights"></bean>
+    <bean id="nGBPCmplxPOCreationSAPErrorMsg" class="com.eportal.entities.NGBPCmplxPOCreationSAPErrorMsg"></bean>
+    <bean id="nGBPCmplxPOCreationTexts" class="com.eportal.entities.NGBPCmplxPOCreationTexts"></bean>
+    <bean id="nGBPCmplxPOCreationVendorAddress" class="com.eportal.entities.NGBPCmplxPOCreationVendorAddress"></bean>
+    <bean id="masterLocation" class="com.eportal.entities.MasterLocation"></bean>
+    <bean id="component" class="com.eportal.entities.Component"></bean>
+    <bean id="nGCPCustomerSeeded" class="com.eportal.entities.NGCPCustomerSeeded"></bean>
+    <bean id="masterShippingInstruction" class="com.eportal.entities.MasterShippingInstruction"></bean>
+    <bean id="masterStockType" class="com.eportal.entities.MasterStockType"></bean>
+    <bean id="masterPartnerFunction" class="com.eportal.entities.MasterPartnerFunction"></bean>
+    <bean id="limits" class="com.eportal.entities.Limits"></bean>
+    <bean id="signedPoInput" class="com.eportal.entities.SignedPoInput"></bean>
+    <bean id="signedPoOutput" class="com.eportal.entities.SignedPoOutput"></bean>
+    <bean id="nGBPCmplxPOCreationLimitsAccountAssignment" class="com.eportal.entities.NGBPCmplxPOCreationLimitsAccountAssignment"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemComponent" class="com.eportal.entities.NGBPCmplxPOCreationLineItemComponent"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemProfitabilitySegment" class="com.eportal.entities.NGBPCmplxPOCreationLineItemProfitabilitySegment"></bean>
+    <bean id="masterShippingInstructions" class="com.eportal.entities.MasterShippingInstructions"></bean>
+    <bean id="masterQAControl" class="com.eportal.entities.MasterQAControl"></bean>
+    <bean id="masterCustomerSegment" class="com.eportal.entities.MasterCustomerSegment"></bean>
+    <bean id="schemaGroupPurOrgMapping" class="com.eportal.entities.SchemaGroupPurOrgMapping"></bean>
+    <bean id="saleRecords" class="com.eportal.entities.SaleRecords"></bean>
+    <bean id="supplierHeaderRatedParameterMapping" class="com.eportal.entities.SupplierHeaderRatedParameterMapping"></bean>
+    
+    <bean id="savePoLineLevelTab" class="com.eportal.util.SavePoLineLevelTab"></bean>
+    <bean id="mailTrigger" class="com.eportal.util.MailTrigger"></bean>
+    
+    <bean id="purchaseOrderWS" class="com.eportal.webservice.util.PurchaseOrderWS"></bean>
+    <bean id="rfqRfpWS" class="com.eportal.webservice.util.RfqRfpWS"></bean>
+    <bean id="purchaseRequestWS" class="com.eportal.webservice.util.PurchaseRequestWS"></bean>
+    <bean id="standalonePoWS" class="com.eportal.webservice.util.StandalonePoWS"></bean>
+    <bean id="vendorWS" class="com.eportal.webservice.util.VendorWS"></bean>
+    <bean id="reportWS" class="com.eportal.webservice.util.ReportWS"></bean>
+    <bean id="inputRfqFormat" class="com.eportal.newgenControl.InputRfqFormat"></bean>
+    <bean id="standalonePoDocumentInputBean" class="com.eportal.newgenControl.StandalonePoDocumentInputBean"></bean>
+    <bean id="standalonePoDocumentOutputBean" class="com.eportal.newgenControl.StandalonePoDocumentOutputBean"></bean>
+    <bean id="prToPoUserProfileMaster" class="com.eportal.entities.PrToPoUserProfileMaster"></bean>
+    <bean id="masterTNCCMapping" class="com.eportal.entities.MasterTNCCMapping"></bean>
+    <!--contract Beams-->
+    <!--abhishek-->
+    <bean id="newgenContractCompanyCode" class="com.eportal.entities.NewgenContractCompanyCode"></bean>
+    <bean id="spocUser" class="com.eportal.entities.SpocUser"></bean>
+    <bean id="signedContractInput" class="com.eportal.entities.SignedContractInput"></bean>
+    <bean id="signedContractoutput" class="com.eportal.entities.SignedContractoutput"></bean>
+    <bean id="cmHeaderInfo" class="com.eportal.entities.CMHeaderInfo"></bean>
+    <bean id="cmHeaderAgreementInfo" class="com.eportal.entities.CMHeaderAgreementInfo"></bean>
+    <bean id="cmHeaderOLAInfo" class="com.eportal.entities.CMHeaderOLAInfo"></bean>
+    <bean id="cmHeaderTermsDPInfo" class="com.eportal.entities.CMHeaderTermsDPInfo"></bean>
+    <bean id="cmHeaderReferenceInfo" class="com.eportal.entities.CMHeaderReferenceInfo"></bean>
+    <bean id="cmHeaderAccountAssignInfo" class="com.eportal.entities.CMHeaderAccountAssignInfo"></bean>
+    <bean id="cmHeaderServicesInfo" class="com.eportal.entities.CMHeaderServicesInfo"></bean>
+    <bean id="cmHeaderProfitSegmentInfo" class="com.eportal.entities.CMHeaderProfitSegmentInfo"></bean>
+    <bean id="cmSOWContractDetailsInfo" class="com.eportal.entities.CMSOWContractDetailsInfo"></bean>
+    <bean id="cmHeaderMislInfo" class="com.eportal.entities.CMHeaderMislInfo"></bean>
+    <bean id="spendDataBean" class="com.eportal.entities.SpendDataBean"></bean>
+    <bean id="spendDataBean1" class="com.eportal.entities.SpendDataBean1"></bean>
+    <bean id="buyerPendingContractLineItemsBean" class="com.eportal.entities.BuyerPendingContractLineItemsBean"></bean>
+    <bean id="nGExtCM" class="com.eportal.entities.NGExtCM"></bean>
+    <bean id="contractSpend" class="com.eportal.entities.ContractSpend"></bean>
+    <bean id="contractSpendReport" class="com.eportal.entities.ContractSpendReport"></bean>
+    <bean id="contractSpendReportSVC" class="com.eportal.entities.ContractSpendReportSVC"></bean>
+    <bean id="uploadSpendHistory" class="com.eportal.entities.UploadSpendHistory"></bean>
+    <bean id="requestTypeBean" class="com.eportal.entities.RequestTypeBean"></bean>
+    <bean id="CmLineDataBean" class="com.eportal.entities.CmLineDataBean"></bean>
+      
+    <bean id="moveWIOutPutBean" class="com.eportal.entities.MoveWIOutPut"></bean>
+    <bean id="moveWIInputBean" class="com.eportal.entities.MoveWIInput"></bean>
+      
+    <bean id="defaultRatedParameters" class="com.eportal.entities.NG_BP_Default_RatedParameters"></bean>
+     
+     
+    <!--abhishek-->
+  
+    <bean id="extPoCreationDraft" class="com.eportal.entities.ExtPoCreationDraft"></bean>
+    <bean id="cmplxPoCreationDeliveryInvoiceDraft" class="com.eportal.entities.CmplxPoCreationDeliveryInvoiceDraft"></bean>
+    <bean id="cmplxPoCreationVendorAddressDraft" class="com.eportal.entities.CmplxPoCreationVendorAddressDraft"></bean>
+    <bean id="cmplxPoCreationCommunicationDraft" class="com.eportal.entities.CmplxPoCreationCommunicationDraft"></bean>
+    <bean id="cmplxPoCreationHeaderTextDraft" class="com.eportal.entities.CmplxPoCreationHeaderTextDraft"></bean>
+    <bean id="cmplxPoCreationLineItemPoDraft" class="com.eportal.entities.CmplxPoCreationLineItemPoDraft"></bean>
+    <bean id="cmplxPoCreationConditionsDraft" class="com.eportal.entities.CmplxPoCreationConditionsDraft"></bean>
+    <bean id="personalSettings" class="com.eportal.entities.PersonalSettings"></bean>    
+    <bean id="cmplxPoCreationCustomerDataDraft" class="com.eportal.entities.CmplxPoCreationCustomerDataDraft"></bean>
+    <bean id="buyerDashboardPrStatusChartBean" class="com.eportal.entities.BuyerDashboardPrStatusChartBean"></bean>
+    <bean id="rfqPoDetails" class="com.eportal.entities.RfqPoDetails"></bean>
+    <bean id="buyerPurchaseGroupMapping" class="com.eportal.entities.BuyerPurchaseGroupMapping"></bean>
+    <bean id="editAmendPoRfqLineBean" class="com.eportal.entities.EditAmendPoRfqLineBean"></bean>
+    <bean id="masterExchageRateRatio" class="com.eportal.entities.MasterExchageRateRatio"></bean>
+    <bean id="rfqQuotationRfqEvaluationInputBean" class="com.eportal.newgenControl.RfqQuotationRfqEvaluationInputBean"></bean>
+    <bean id="generator" class="com.eportal.document.Generator"></bean>
+    <bean id="poSavingReportMaterialBean" class="com.eportal.entities.PoSavingReportMaterialBean"></bean>
+    <bean id="poSavingReportServiceBean" class="com.eportal.entities.PoSavingReportServiceBean"></bean>
+    <bean id="poCommentsHistory" class="com.eportal.entities.PoCommentsHistory"></bean>
+    <bean id="materialTab" class="com.eportal.entities.MaterialTab"></bean>
+    <bean id="nGBPCmplxPOCreationLineItemMaterialTab" class="com.eportal.entities.NGBPCmplxPOCreationLineItemMaterialTab"></bean>
+    <bean id="nGBPCmplxPOCreationStatus" class="com.eportal.entities.NGBPCmplxPOCreationStatus"></bean>
+    <bean id="masterMaterialMARA" class="com.eportal.entities.MasterMaterialMARA"></bean>
+    <bean id="pDBFolder" class="com.eportal.entities.PDBFolder"></bean>
+    <bean id="pDBDocument" class="com.eportal.entities.PDBDocument"></bean>
+    <bean id="pDBDocumentContent" class="com.eportal.entities.PDBDocumentContent"></bean>
+    <bean id="masterUserProfile" class="com.eportal.entities.MasterUserProfile"></bean>
+    <bean id="masterProcCaMatrix" class="com.eportal.entities.MasterProcCaMatrix"></bean>
+    <bean id="masterProcCaRelStrg" class="com.eportal.entities.MasterProcCaRelStrg"></bean>
+    <bean id="servicesLongTexts" class="com.eportal.entities.ServicesLongTexts"></bean>
+    <bean id="masterUserIdDepartment" class="com.eportal.entities.MasterUserIdDepartment"></bean>
+    <bean id="onlineUsers" class="com.eportal.entities.OnlineUsers"></bean>
+    <bean id="loginWS" class="com.eportal.webservice.util.LoginWS"></bean>
+    <bean id="cmplxPOCreationApproverDetailsDraft" class="com.eportal.entities.CmplxPOCreationApproverDetailsDraft"></bean>
+    <bean id="nGPR2PODeptCostCentre" class="com.eportal.entities.NGPR2PODeptCostCentre"></bean>
+    <bean id="cmplxPRToPOLineItemComponents" class="com.eportal.entities.CmplxPRToPOLineItemComponents"></bean>
+</beans>

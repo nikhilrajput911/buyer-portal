@@ -1,0 +1,150 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 27, 2019, 10:42:05 AM
+    Author     : Sunny Kumar
+*/
+
+
+.po-cards{
+    margin:50px 0px 0px 0px;
+}
+.div-margin{
+    margin-left: 100px;
+}
+.input-width{
+    width: 50px;
+}
+.input-height{
+    height: 25px;
+    /*width: 50px;*/
+}
+
+.input-margin{
+    margin-left: 25px;
+}
+.payment-margin{
+    margin-left: 65px;
+}
+.card-margin{
+    margin-top:10px;
+}
+.dropdown-height{
+    height: 30px;
+}
+/*.header-c{
+    color: white;
+}*/
+.accAssgnTableInputField{
+    border: none;
+    border-color: white;
+}
+.nav-link {
+    display: block;
+    padding: 0rem 0rem; 
+}
+.tab-regular .nav.nav-tabs .nav-link {
+    display: block;
+    margin-right: 2px;
+    background-color: #5969ff;
+    color: white;
+}
+.tab-regular .nav-tabs .nav-link.active {
+    background-color: #fff;
+    color: #5969ff;
+}
+.nav-tabs .nav-link:hover {
+    border-color: transparent;
+    color: white !important; 
+}
+
+.card{
+    margin-bottom: 10px;
+
+}
+.card-body{
+    padding: 5px 10px 5px 10px; 
+}
+.material_table-header-color {
+    background-color: white !important; 
+    color: black !important; 
+}
+#conditionTableId thead th{
+    color: white;
+}
+#serviceTableId thead th{
+    color: white;
+}
+.th-color{
+    color: white;
+}
+/*.table-responsive .dropdown-menu {
+        position: relative !important;
+        overflow-x: auto;
+        z-index: 2;
+    }*/
+
+.payment-term-custom-select{
+    width:45%;
+}
+* { box-sizing: border-box; }
+.inline { display: inline-block;}
+
+.box{}
+.rightCircle{ position:absolute;
+              width:20px;
+              height:20px;
+              border-radius:50%;
+              top:-10px;
+              color: #5969ff;
+              float: left;
+              margin-left: -25px;
+}
+.rightCircle2{ position:absolute;
+               width:20px;
+               height:20px;
+               border-radius:50%;
+               top:-10px;
+               color: #5969ff;
+               float: left;
+               margin-left: -25px;
+}
+.rightCircle3{ position:absolute;
+               width:20px;
+               height:20px;
+               border-radius:50%;
+               top:-10px;
+               color: #5969ff;
+               float: left;
+               margin-left: -25px;
+}
+.tableInputField{
+    height: 25px;   
+}
+.vl {
+    border-left: 2px solid gray;
+    height: 15px;
+}
+.nav-link.active:hover{
+    color: #5969ff !important;;
+}
+.tableInputFieldWidth{
+ width: 70px;   
+}
+/*#Conditions:hover, .active{
+    color: #5969ff !important;;
+}*/
+/*.input-disabled{
+    
+}*/
+.modal-dialog {
+    width: 1000px;
+    margin: 30px auto;
+}
+.modal-padding{
+    padding-right: 430px;
+    padding-left: 0px;
+}

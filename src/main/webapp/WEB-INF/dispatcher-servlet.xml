@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+    <!--
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    -->
+    <!--<mvc:annotation-driven />-->
+    
+    <context:component-scan  base-package="com.eportal.entities" />
+    <context:property-placeholder location="classpath:rfqstatus.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:log4j.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:mail.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:message.properties" ignore-unresolvable="true"/>
+    <!--
+        Most controllers will use the ControllerClassNameHandlerMapping above, but
+        for the index controller we are using ParameterizableViewController, so we must
+        define an explicit mapping for it.
+    -->    
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="welcome.do">welcomeController</prop>
+                <prop key="login.do">indexController</prop>
+                <prop key="index.do">indexController</prop>
+                <prop key="error.do">indexController</prop>
+                <prop key="logout.do">indexController</prop>
+                <prop key="dashboardcont.do">indexController</prop>
+                <prop key="editprofile.do">indexController</prop>
+                <prop key="createrfp.do">rfqrfpmgmnt</prop>
+                <prop key="submitrfqdetails.do">rfqrfpmgmnt</prop>
+                <prop key="createrfpforpr.do">rfqrfpmgmnt</prop>
+                <prop key="mytask.do">rfqrfpmgmnt</prop>
+                <prop key="rfqdetails.do">rfqrfpmgmnt</prop>
+                <prop key="updaterfqdetails.do">rfqrfpmgmnt</prop>
+                <prop key="submitrfqprlineattachment.do">rfqrfpmgmnt</prop>
+                <prop key="vendorresponses.do">rfqrfpmgmnt</prop>
+                <prop key="createbuyer.do">buyerManagement</prop>
+                <prop key="createvendor.do">vendorManagement</prop>
+                <prop key="savebuyerdetails.do">buyerManagement</prop>
+                <prop key="updatebuyerdetails.do">buyerManagement</prop>
+                <prop key="assignprline.do">dashboard</prop>
+                <prop key="savevendordetails.do">vendorManagement</prop>
+                <prop key="updatedetails.do">vendorManagement</prop>
+                <prop key="propectmanagement.do">vendorManagement</prop>
+                <prop key="pendingprlines.do">prManagement</prop>
+                <prop key="rfqinprogress.do">prManagement</prop>
+                <prop key="ajaxcontroller.do">ajaxController</prop>
+                <prop key="downloadworkorderlineitemattachment.do">downloadAttController</prop>
+                <prop key="resetpassword.do">indexController</prop>
+                <prop key="createpo.do">poManagement</prop>
+                <prop key="savepodetails.do">poManagement</prop>
+                <prop key="pocreated.do">poManagement</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp" />
+
+    <bean name="welcomeController"
+              class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+              p:viewName="login" />
+        
+    <bean name="indexController"
+          class="com.eportal.controller.Login"/>        
+    <bean name="rfqrfpmgmnt"
+          class="com.eportal.controller.RfqRfpManagement"/>    
+    <bean name="buyerManagement"
+          class="com.eportal.controller.BuyerManagement"/>    
+    <bean name="vendorManagement"
+                class="com.eportal.controller.VendorManagement"/>    
+    <bean name="dashboard"
+                class="com.eportal.controller.Dashboard"/>    
+    <bean name="prManagement"
+                class="com.eportal.controller.PRManagement"/>    
+    <bean name="ajaxController"
+                class="com.eportal.controller.AjaxController"/>    
+    <bean name="downloadAttController"
+                class="com.eportal.controller.DownloadAttachment"/>    
+    <bean name="poManagement"
+                class="com.eportal.controller.POManagement"/>    
+    <bean name="reportManagement"
+                class="com.eportal.controller.ReportManagement"/>
+    <bean name="restController"
+                class="com.eportal.controller.RestController"/>
+    <bean name="contractAjaxController"
+                class="com.eportal.controller.ContractAjaxController"/>
+    <bean name="poAjaxController"
+                class="com.eportal.controller.POAjaxController"/>
+    <bean name="standalonePoAjaxController"
+                class="com.eportal.controller.StansalonePoAjaxController"/>
+    <!--abhishek-->
+        <bean name="contractManagement"
+                class="com.eportal.controller.ContractManagement"/>
+     <!--abhishek-->
+    <bean name="rfqEvaluationController"
+                class="com.eportal.controller.RfqEvaluationController"/>
+    <bean name="buyerVendorAjaxController"
+                class="com.eportal.controller.BuyerVendorAjaxController"/>
+    <bean name="createAmendDeleteAjaxController"
+                class="com.eportal.controller.CreateAmendDeletePoAjaxController"/>
+    <bean name="globalDefaultExceptionHandler"
+                class="com.eportal.controller.GlobalDefaultExceptionHandler"/>
+    
+    <mvc:interceptors>
+      <bean class="com.eportal.interceptor.AuthenticationFilter"/>
+   </mvc:interceptors>
+</beans>

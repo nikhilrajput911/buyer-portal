@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="requestforquot" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ef136937-b7b0-43a1-a4c9-93a3f574d615">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[Ik5HX0JQX3dvcmtvcmRlcnJmcWhlYWRlciIgLDE1LDE1LDExYWY4YTdmLTAyYTItNDZlZC05Njky
+LWJhZTVhOTEzZTk5YTs=]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="rfqNumber" class="java.lang.String"/>
+	<parameter name="fax" class="java.lang.String"/>
+	<parameter name="tel" class="java.lang.String"/>
+	<parameter name="telNo" class="java.lang.String"/>
+	<parameter name="atten" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="from" class="java.lang.String"/>
+	<parameter name="to" class="java.lang.String"/>
+	<parameter name="creationDate" class="java.util.Date"/>
+	<parameter name="quotationDileveryDate" class="java.util.Date"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="gstNumber" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="deliveryTerms" class="java.lang.String"/>
+	<parameter name="paymentTerms" class="java.lang.String"/>
+	<parameter name="validityOffer" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="rfqNumber" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="rfqid" class="java.lang.Integer"/>
+	<field name="plant" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="uom" class="java.lang.String"/>
+	<field name="uwt" class="java.lang.String"/>
+	<field name="up" class="java.lang.String"/>
+	<field name="leadTime" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="50" width="250" height="30" uuid="01b56ea1-5b3a-4328-8722-0a9e755c95eb"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[REQUEST FOR QUOTATION]]></text>
+			</staticText>
+			<line>
+				<reportElement x="170" y="79" width="260" height="1" uuid="e9bc65c8-8fdc-4084-8f6d-c7b10878e760">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<image scaleImage="FillFrame" onErrorType="Blank">
+				<reportElement x="380" y="-3" width="180" height="50" uuid="b885169e-b65e-4e45-aafa-e008bbd6988b"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="161" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="2" width="50" height="20" uuid="62b81f04-5a8f-430b-9f48-0dbb04cd1746"/>
+				<textElement>
+					<font fontName="Courier New" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RFQ No :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="23" width="175" height="20" uuid="6371b973-5945-4070-a8df-e8af9e4584ca"/>
+				<textElement>
+					<font fontName="Courier New" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format($P{creationDate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="47" width="248" height="22" uuid="14831da5-d5c1-43d8-8a7d-dae3e9e12bd3"/>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["To : "+($P{to}==null?"":$P{to})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="71" width="380" height="25" uuid="fca605a9-fa8d-488e-90b6-a0bceb2ee976"/>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Attn : "+($P{atten}==null?"":$P{atten})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="98" width="499" height="23" uuid="67cc2cf0-4d59-41a9-8f47-47f44c608e31"/>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tel:  "+($P{tel}==null?"":$P{tel})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="121" width="500" height="27" uuid="bb5840c2-71e0-41cf-8de8-2d4c3f3e2808"/>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fax: "+($P{fax}==null?"":$P{fax})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="23" width="50" height="20" uuid="8a8fee93-bb74-48c0-863f-e00b42d88cf2"/>
+				<textElement>
+					<font fontName="Courier New" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="85" y="2" width="170" height="20" uuid="63988ef9-3f83-4b5a-ac96-c3a2f531dcc9"/>
+				<textElement>
+					<font fontName="Courier New" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rfqNumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="279" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="140" width="261" height="19" uuid="217e588e-68e0-4b57-ae7a-3bc69cf883e5"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GST Registered Number(if applicable): ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="164" width="80" height="24" uuid="3eee50ea-c00b-447f-b879-a4b0ace58e48">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Currency:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="190" width="130" height="20" uuid="1641b3ef-f859-4c6d-9e88-30c543c5ad00"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Delivery Terms:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="212" width="130" height="20" uuid="4a46ce58-b078-481e-8d03-f4b562fabf9a"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment Terms: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="235" width="130" height="20" uuid="e61c155e-816f-4d9a-a9f7-cd0f190d2e45"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Validity of Offer: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="86" width="550" height="1" uuid="19690fe7-c725-4d3a-a464-3434fa9cae1b"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="5" y="17" width="550" height="1" uuid="f36d3b6d-be8a-4762-b0e2-a7190395dd68"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="5" y="108" width="550" height="1" uuid="4cb24786-a220-4685-979a-9240402bec8c"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="91" width="59" height="18" uuid="fd40b364-47d1-4ea6-9f31-f506aae75556">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="91" width="59" height="18" uuid="6b7a6692-0d39-4d01-9a2e-53dace907e8b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="91" width="40" height="18" uuid="741e3add-589d-46bc-89d8-9e3c74dfd737">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="91" width="60" height="18" uuid="7bd25689-6af0-4204-8bfa-7ba0b40b2ac7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="91" width="161" height="18" uuid="62cdadc6-74ea-47c8-8b63-0e4767e5a56c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="91" width="59" height="18" uuid="e1b796e9-ca2e-4667-b635-76095ca841b4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[U/Wt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="91" width="48" height="18" uuid="d060c41b-a2ca-4f61-82e2-18cab0fd0c8d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[U/P]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="491" y="91" width="64" height="18" uuid="3e674ca4-f6ed-43b1-bbfe-c30b596403ce">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lead Time]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="112" width="59" height="22" uuid="f6584540-6d9a-449c-a9af-cac264d9794b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rfqid}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="218" y="110" width="162" height="24" isPrintWhenDetailOverflows="true" uuid="719395d7-7ef7-4169-9224-b39bc80df6e5"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="-14" width="500" height="30" uuid="b2e78a10-7d6c-44dd-9266-5e1eead63571"/>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["From: "+($P{from}==null?"":$P{from})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="121" y="113" width="39" height="14" uuid="68bf0f9c-914c-4544-b6ce-ebaf272a2e6b"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="113" width="60" height="14" uuid="a4b0fc2c-0e1b-4467-bdb2-d62b0c63e9ef"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plant}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="113" width="58" height="14" uuid="bac60355-b068-44e3-9f63-4cf7c77cf72a"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="495" y="112" width="58" height="14" uuid="e1220fdc-7a70-41da-86f5-59483029d83f"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{leadTime}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="383" y="112" width="58" height="14" uuid="d5e86c39-71f1-4719-bde7-ff91d1fb6b43"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uwt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="443" y="112" width="58" height="14" uuid="8eca268c-2216-46e0-937a-66091e4a9f3d"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{up}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="269" y="141" width="251" height="19" uuid="ece2d68d-eae3-4500-bb8e-db5678896d86"/>
+				<textFieldExpression><![CDATA[$P{gstNumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="164" width="440" height="19" uuid="34afe031-1c30-4101-938a-59130522c4ed"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currency}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="127" y="190" width="413" height="19" uuid="23a457d8-8a00-4ec8-911d-017b29239a76"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{deliveryTerms}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="212" width="408" height="19" uuid="5ae2c2d4-e1f5-4d99-8fd9-f56bab2e4a0a"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paymentTerms}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="235" width="408" height="19" uuid="653eefdd-5ad6-44fb-9808-853124b44134"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{validityOffer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-1" y="22" width="570" height="64" uuid="5c8aab9f-d16b-4ff2-850b-111996d22f4f"/>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Please quote your best price for the below mentioned items/services. Kindly include\n"
++"your most favourable lead time, unit weight, payment terms, trade terms, currency of\n"
++"offer and validity of offer. Quotation should reach us not later than "+new SimpleDateFormat("dd.MM.yyyy").format($P{quotationDileveryDate})
++"\n QUOTATION SUBMITTED SHOULD BE VALID/EXTENDED TO SUBSIDIARIES OF \"NATSTEEL\""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="550" height="30" uuid="7bceded5-e0ba-4f07-9ccd-47a9a0dab215"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NATSTEEL  OLDINGS PTE LTD,22 TANJONG KLING ROAD,SINGAPORE 628048.FAX:65-62659345]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
